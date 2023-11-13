@@ -7,7 +7,8 @@ public class MouvementEnnemie : MonoBehaviour
     public float minSpeed = 1.0f;   // Vitesse minimale de déplacement de l'ennemi
     public float maxInitialSpeed = 3.0f;   // Vitesse initiale maximale de déplacement de l'ennemi
     public float speedIncreaseInterval = 30.0f;  // Intervalle d'augmentation de la vitesse en secondes
-    public float speedIncreaseAmount = 0.4f;  // Montant d'augmentation de la vitesse
+    public float speedIncreaseAmount = 0.5f;  // Montant d'augmentation de la vitesse
+    public float stopXCoordinate = -7.71f;  // Coordonnée X à laquelle l'ennemi doit s'arrêter
 
     private float currentMaxSpeed;  // Vitesse maximale actuelle de l'ennemi
 
@@ -28,6 +29,12 @@ public class MouvementEnnemie : MonoBehaviour
 
     void MoveLeft()
     {
+        // Si l'ennemi a atteint ou dépassé la coordonnée X d'arrêt, arrêter le mouvement
+        if (transform.position.x <= stopXCoordinate)
+        {
+            return;
+        }
+
         // Calcul du déplacement en fonction de la vitesse et du temps
         float movement = currentMaxSpeed * Time.deltaTime;
 
