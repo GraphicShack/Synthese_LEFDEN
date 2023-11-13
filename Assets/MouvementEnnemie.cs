@@ -7,7 +7,7 @@ public class MouvementEnnemie : MonoBehaviour
     public float minSpeed = 1.0f;   // Vitesse minimale de déplacement de l'ennemi
     public float maxInitialSpeed = 3.0f;   // Vitesse initiale maximale de déplacement de l'ennemi
     public float speedIncreaseInterval = 30.0f;  // Intervalle d'augmentation de la vitesse en secondes
-    public float speedIncreaseAmount = 0.5f;  // Montant d'augmentation de la vitesse
+    public float speedIncreaseAmount = 0.4f;  // Montant d'augmentation de la vitesse
 
     private float currentMaxSpeed;  // Vitesse maximale actuelle de l'ennemi
 
