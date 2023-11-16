@@ -13,12 +13,12 @@ public class MouvementJoeur : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             // Déplacer vers la position Y suivante
-            ChangeYPosition(1);
+            ChangeYPosition(-1);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             // Déplacer vers la position Y précédente
-            ChangeYPosition(-1);
+            ChangeYPosition(1);
         }
     }
 
