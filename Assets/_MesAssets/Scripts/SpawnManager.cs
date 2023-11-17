@@ -28,7 +28,7 @@ public class SpawnManager : MonoBehaviour
     void SpawnEnemy()
     {
         float positionY = ObtenirYApparitionAleatoire();
-        GameObject nouvelEnnemi = Instantiate(enemyPrefab, new Vector3(12f, positionY, 0f), Quaternion.identity);
+        GameObject nouvelEnnemi = Instantiate(enemyPrefab, new Vector3(12f, positionY, 0f), Quaternion.Euler(0f, 0f, -90f));
         // Ajouter le script de gestion des collisions à l'ennemi
         nouvelEnnemi.AddComponent<CollisionEnnemi>();
     }

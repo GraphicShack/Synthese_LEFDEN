@@ -25,7 +25,7 @@ public class MouvementEnnemie : MonoBehaviour
     void DeplacementDroiteAGauche()
     {
         float deplacement = vitesseActuelle * Time.deltaTime;
-        transform.Translate(Vector3.left * deplacement);
+        transform.Translate(Vector3.down * deplacement);
 
         if (transform.position.x <= stopXCoordinate)
         {

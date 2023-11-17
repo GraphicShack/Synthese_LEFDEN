@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SciptMenuPrincipal : MonoBehaviour
 {
     public GameObject instructionPanel;
+    public GameObject mainPanel;
 
     void Start()
     {
@@ -14,24 +15,31 @@ public class SciptMenuPrincipal : MonoBehaviour
         {
             instructionPanel.SetActive(false);
         }
+
+        if (mainPanel != null)
+        {
+            mainPanel.SetActive(true);
+        }
+
     }
 
     // Méthode appelée lorsqu'on appuie sur le bouton "Jouer"
     public void Jouer()
     {
-        SceneManager.LoadScene("NomDeVotreScene"); // Remplacez "NomDeVotreScene" par le nom de la scène que vous souhaitez charger
+        SceneManager.LoadScene("JeuxPrincipal"); // Remplacez "NomDeVotreScene" par le nom de la scène que vous souhaitez charger
     }
 
     // Méthode appelée lorsqu'on appuie sur le bouton "Instructions"
     public void AfficherInstructions()
     {
         // Désactiver le panel actuel
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
 
         // Activer le panel des instructions
         if (instructionPanel != null)
         {
             instructionPanel.SetActive(true);
+            mainPanel.SetActive(false);
         }
     }
 

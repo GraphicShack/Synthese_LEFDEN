@@ -10,6 +10,14 @@ public class GestionTir : MonoBehaviour
     private float peutTirer = 0f;  // Moment où le joueur peut tirer
     private bool tripleLaserActif = false;  // Indique si le tir triple est activé
 
+    private GestionUiJeux gestionUiJeux;
+
+    void Start()
+    {
+        // Trouver le UIManager dans la scène au démarrage
+        gestionUiJeux = GameObject.FindObjectOfType<GestionUiJeux>();
+    }
+
     void Update()
     {
         TirerLaser();
@@ -24,6 +32,7 @@ public class GestionTir : MonoBehaviour
             if (!tripleLaserActif)
             {
                 GameObject nouveauLaser = Instantiate(laserJoueur, transform.position + new Vector3(0f, 0f, 0f), Quaternion.identity);
+                gestionUiJeux.AugmenterTir();
                 DetruireLaserAuContact(nouveauLaser);
             }
             else

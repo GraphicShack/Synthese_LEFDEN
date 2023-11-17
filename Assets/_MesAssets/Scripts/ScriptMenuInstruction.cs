@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class ScriptMenuInstruction : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public GameObject instructionPanel;
+    public GameObject mainPanel;
+
+
+    public void Retour()
     {
-        
+        // Désactiver le panel des instructions
+        if (instructionPanel != null)
+        {
+            instructionPanel.SetActive(false);
+        }
+
+        // Activer le panel principal
+        if (mainPanel != null)
+        {
+            mainPanel.SetActive(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
