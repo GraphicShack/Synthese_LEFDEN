@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;  // Référence au prefab de l'ennemi
+    [SerializeField] private List<GameObject> enemyPrefabs;  // Liste des prefabs d'ennemis
     public float intervalleApparition = 4.0f;  // Intervalle de temps pour l'apparition des ennemis
     public float tempsApparitionMin = 1.0f;   // Temps d'apparition minimum autorisé
     public float intervalleDiminutionTempsApparition = 30.0f;  // Intervalle pour diminuer le temps d'apparition
@@ -20,23 +20,33 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            SpawnEnemy();
+            float positionY1 = ObtenirYApparitionAleatoire();
+            float positionY2 = ObtenirYApparitionAleatoire(positionY1);
+
+            SpawnEnemy(positionY1);
+            SpawnEnemy(positionY2);
+
             yield return new WaitForSeconds(Mathf.Max(intervalleApparition, tempsApparitionMin));
         }
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(float positionY)
     {
-        float positionY = ObtenirYApparitionAleatoire();
-        GameObject nouvelEnnemi = Instantiate(enemyPrefab, new Vector3(12f, positionY, 0f), Quaternion.Euler(0f, 0f, -90f));
-        // Ajouter le script de gestion des collisions à l'ennemi
+        // Choisi aléatoirement un prefab d'ennemi
+        GameObject nouvelEnnemi = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], new Vector3(12f, positionY, 0f), Quaternion.Euler(0f, 0f, -90f));
+        // Ajoute le script de gestion des collisions à l'ennemi
         nouvelEnnemi.AddComponent<CollisionEnnemi>();
     }
 
-    float ObtenirYApparitionAleatoire()
+    float ObtenirYApparitionAleatoire(float exclusionY = float.NaN)
     {
         float[] positionsYApparition = { -2.5f, 0f, 2.5f };
-        return positionsYApparition[Random.Range(0, positionsYApparition.Length)];
+
+        // Retire la position d'exclusion du tableau
+        List<float> positionsDisponibles = new List<float>(positionsYApparition);
+        positionsDisponibles.Remove(exclusionY);
+
+        return positionsDisponibles[Random.Range(0, positionsDisponibles.Count)];
     }
 
     IEnumerator CoroutineDiminutionTempsApparition()

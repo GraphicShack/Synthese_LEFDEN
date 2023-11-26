@@ -66,6 +66,7 @@ public class GestionTir : MonoBehaviour
         {
             if (collider.tag == "Ennemi")  // Utilisez le tag approprié pour l'ennemi
             {
+                gestionUiJeux.AugmenterEnnemiAbattu();
                 Destroy(laser);
                 Destroy(collider.gameObject);
                 // Ajoutez ici toute autre logique que vous souhaitez exécuter lorsqu'un ennemi est touché par un laser.

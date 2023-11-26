@@ -19,10 +19,10 @@ public class CollisionEnnemi : MonoBehaviour
 
         if (other.CompareTag("Missile"))
         {
-            gestionUiJeux.AugmenterEnnemiAbattu();
             Debug.Log("Missile detected!");
             Destroy(other.gameObject);  // Destroy the missile
             Destroy(gameObject);  // Destroy the enemy
+            gestionUiJeux.AugmenterEnnemiAbattu();
         }
     }
 }
