@@ -16,6 +16,8 @@ public class GestionUiJeux : MonoBehaviour
     private int ennemisAbattus = 0;
     private bool _pauseOn = false;
 
+    private ScoreManager scoreManager;
+
     void Start()
     {
         MiseAJourUI();
@@ -66,6 +68,9 @@ public class GestionUiJeux : MonoBehaviour
     {
         int scoreFinal = tempsDeJeuEnSecondes + ennemisAbattus - tirs;
         scoreFinalText.text = "Score Final : " + scoreFinal;
+
+        // Appeler UpdateScores de ScoreManager
+        scoreManager.UpdateScores();
     }
 
     private void MiseAJourUI()
@@ -80,5 +85,11 @@ public class GestionUiJeux : MonoBehaviour
         _pausePanel.SetActive(false);
         Time.timeScale = 1;
         _pauseOn = false;
+    }
+
+    public int GetScoreFinal()
+    {
+        int scoreFinal = tempsDeJeuEnSecondes + ennemisAbattus - tirs;
+        return scoreFinal;
     }
 }

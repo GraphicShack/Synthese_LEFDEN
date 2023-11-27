@@ -57,4 +57,15 @@ public class SpawnManager : MonoBehaviour
             intervalleApparition = Mathf.Max(intervalleApparition - diminutionTempsApparition, tempsApparitionMin);
         }
     }
+
+    public void DetruireTousLesPrefabs()
+    {
+        GameObject[] ennemisEnJeu = GameObject.FindGameObjectsWithTag("Ennemi"); // Assurez-vous d'ajouter un tag "Ennemi" à vos ennemis.
+
+        foreach (GameObject ennemi in ennemisEnJeu)
+        {
+            Destroy(ennemi);
+        }
+    }
+
 }
