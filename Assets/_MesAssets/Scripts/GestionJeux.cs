@@ -31,7 +31,8 @@ public class GestionJeux : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            SceneManager.LoadScene("FinDePartie");
+            // Appel de la méthode pour sauvegarder avant de changer de scène
+            FindObjectOfType<GestionUiJeux>().ChangerDeScene("FinDePartie");
         }
 
         UpdateHealthUI();

@@ -20,9 +20,18 @@ public class GestionUiJeux : MonoBehaviour
 
     void Start()
     {
-        MiseAJourUI();
-    }
+        // Trouver l'objet ScoreManager dans la scène
+        scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("ScoreManager not found in the scene.");
+        }
 
+        MiseAJourUI();
+
+        // Ne pas détruire cet objet entre les scènes
+        DontDestroyOnLoad(gameObject);
+    }
     void Update()
     {
         tempsDeJeuEnSecondes = Mathf.RoundToInt(Time.time);
@@ -50,20 +59,23 @@ public class GestionUiJeux : MonoBehaviour
             Time.timeScale = 1;
             _pauseOn = false;
         }
-    }
 
+        if (SceneManager.GetActiveScene().name == "FinDePartie")
+        {
+            Time.timeScale = 0;
+        }
+
+    }
     public void AugmenterTir()
     {
         tirs++;
         tirText.text = "Tir : " + tirs;
     }
-
     public void AugmenterEnnemiAbattu()
     {
         ennemisAbattus++;
         ennemiAbattuText.text = "Ennemi abattu : " + ennemisAbattus;
     }
-
     private void MettreAJourScoreFinal()
     {
         int scoreFinal = tempsDeJeuEnSecondes + ennemisAbattus - tirs;
@@ -72,7 +84,6 @@ public class GestionUiJeux : MonoBehaviour
         // Appeler UpdateScores de ScoreManager
         scoreManager.UpdateScores();
     }
-
     private void MiseAJourUI()
     {
         tempsText.text = "Temps : " + tempsDeJeuEnSecondes;
@@ -86,7 +97,19 @@ public class GestionUiJeux : MonoBehaviour
         Time.timeScale = 1;
         _pauseOn = false;
     }
-
+    private void SauvegarderScoresTemporaires()
+    {
+        PlayerPrefs.SetInt("TempsDeJeu", tempsDeJeuEnSecondes);
+        PlayerPrefs.SetInt("Tirs", tirs);
+        PlayerPrefs.SetInt("EnnemisAbattus", ennemisAbattus);
+        PlayerPrefs.SetInt("ScoreFinal", GetScoreFinal());
+        PlayerPrefs.Save();
+    }
+    public void ChangerDeScene(string sceneName)
+    {
+        SauvegarderScoresTemporaires();
+        SceneManager.LoadScene(sceneName);
+    }
     public int GetScoreFinal()
     {
         int scoreFinal = tempsDeJeuEnSecondes + ennemisAbattus - tirs;
