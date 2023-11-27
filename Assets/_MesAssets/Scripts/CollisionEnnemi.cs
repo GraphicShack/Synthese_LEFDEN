@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollisionEnnemi : MonoBehaviour
 {
-
+    [SerializeField] private GameObject _prefabExplosion = default;
     private GestionUiJeux gestionUiJeux;
 
     void Start()
@@ -17,9 +17,10 @@ public class CollisionEnnemi : MonoBehaviour
     {
         Debug.Log($"Trigger entered with {other.gameObject.name}");
 
-        if (other.CompareTag("Missile"))
+        if (other.tag == "Missile")
         {
             Debug.Log("Missile detected!");
+            Instantiate(_prefabExplosion, transform.position, Quaternion.identity);
             Destroy(other.gameObject);  // Destroy the missile
             Destroy(gameObject);  // Destroy the enemy
             gestionUiJeux.AugmenterEnnemiAbattu();

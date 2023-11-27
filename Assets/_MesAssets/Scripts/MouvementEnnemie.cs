@@ -6,6 +6,7 @@ public class MouvementEnnemie : MonoBehaviour
     private float vitesseMax = 4.0f;
     private float vitesseActuelle;
     public float stopXCoordinate = -8.0f;
+    [SerializeField] private GameObject _prefabExplosion = default;
 
     private GestionJeux gestionJeux;
 
@@ -53,6 +54,7 @@ public class MouvementEnnemie : MonoBehaviour
         if (other.tag == "Missile")
         {
             Debug.Log("A");
+            Instantiate(_prefabExplosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
             Destroy(other.gameObject);
         }
