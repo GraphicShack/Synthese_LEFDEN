@@ -6,9 +6,11 @@ public class GestionTir : MonoBehaviour
 {
     [SerializeField] private GameObject laserJoueur;  // Référence au laser simple
     [SerializeField] private GameObject tripleLaserJoueur;  // Référence au laser triple
-    private float cadenceTir = 0.5f;  // Cadence de tir en secondes
     private float peutTirer = 0f;  // Moment où le joueur peut tirer
     private bool tripleLaserActif = false;  // Indique si le tir triple est activé
+    private bool tirRapideActive = false;  // Indique si la vitesse de tir est actuellement augmentée
+    private float vitesseTirNormale = 0.6f;  // Vitesse de tir normale
+    private float vitesseTirRapide = 0.0005f;  // Vitesse de tir augmentée
 
     private GestionUiJeux gestionUiJeux;
 
@@ -27,7 +29,8 @@ public class GestionTir : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && Time.time > peutTirer)
         {
-            //AudioSource.PlayClipAtPoint(sonLaser, Camera.main.transform.position, 0.4f);
+            float vitesseTir = tirRapideActive ? vitesseTirRapide : vitesseTirNormale;
+            // AudioSource.PlayClipAtPoint(sonLaser, Camera.main.transform.position, 0.4f);
 
             if (!tripleLaserActif)
             {
@@ -41,7 +44,7 @@ public class GestionTir : MonoBehaviour
                 DetruireLaserAuContact(nouveauTripleLaser);
             }
 
-            peutTirer = Time.time + cadenceTir;
+            peutTirer = Time.time + vitesseTir;  // Utilisez la vitesse appropriée
         }
     }
 
@@ -72,5 +75,19 @@ public class GestionTir : MonoBehaviour
                 // Ajoutez ici toute autre logique que vous souhaitez exécuter lorsqu'un ennemi est touché par un laser.
             }
         }
+    }
+
+    public void ActiverTirRapide()
+    {
+        if (!tirRapideActive)
+        {
+            StartCoroutine(TirRapideCoroutine());
+        }
+    }
+    private IEnumerator TirRapideCoroutine()
+    {
+        tirRapideActive = true;
+        yield return new WaitForSeconds(10.0f);  // Attendre pendant 10 secondes
+        tirRapideActive = false;
     }
 }

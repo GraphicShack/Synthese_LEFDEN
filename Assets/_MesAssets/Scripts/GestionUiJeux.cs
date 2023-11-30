@@ -28,9 +28,6 @@ public class GestionUiJeux : MonoBehaviour
         }
 
         MiseAJourUI();
-
-        // Ne pas détruire cet objet entre les scènes
-        DontDestroyOnLoad(gameObject);
     }
     void Update()
     {
@@ -73,13 +70,13 @@ public class GestionUiJeux : MonoBehaviour
     }
     public void AugmenterEnnemiAbattu()
     {
-        ennemisAbattus++;
+        ennemisAbattus ++;
         ennemiAbattuText.text = "Ennemi abattu : " + ennemisAbattus;
     }
     private void MettreAJourScoreFinal()
     {
-        int scoreFinal = tempsDeJeuEnSecondes + ennemisAbattus - tirs;
-        scoreFinalText.text = "Score Final : " + scoreFinal;
+        int scoreFinal = tempsDeJeuEnSecondes + (10 * ennemisAbattus) - tirs;
+        scoreFinalText.text = "" + scoreFinal;
 
         // Appeler UpdateScores de ScoreManager
         scoreManager.UpdateScores();

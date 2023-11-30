@@ -9,6 +9,7 @@ public class MouvementEnnemie : MonoBehaviour
     [SerializeField] private GameObject _prefabExplosion = default;
 
     private GestionJeux gestionJeux;
+    private GestionUiJeux gestionUiJeux;
 
     private void Start()
     {
@@ -53,7 +54,6 @@ public class MouvementEnnemie : MonoBehaviour
     {
         if (other.tag == "Missile")
         {
-            Debug.Log("A");
             Instantiate(_prefabExplosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
             Destroy(other.gameObject);
