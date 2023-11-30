@@ -9,6 +9,8 @@ public class GestionTir : MonoBehaviour
     private float cadenceTir = 0.5f;  // Cadence de tir en secondes
     private float peutTirer = 0f;  // Moment où le joueur peut tirer
     private bool tripleLaserActif = false;  // Indique si le tir triple est activé
+    [SerializeField] private GameObject _prefabFire = default;
+    private bool _FireOn = false;
 
     private GestionUiJeux gestionUiJeux;
 
@@ -22,7 +24,11 @@ public class GestionTir : MonoBehaviour
     {
         TirerLaser();
     }
-
+    IEnumerator FireCoroutine()
+    {
+        yield return new WaitForSeconds(0.35f);
+        _prefabFire.SetActive(false);
+    }
     private void TirerLaser()
     {
         if (Input.GetKey(KeyCode.Space) && Time.time > peutTirer)
@@ -33,6 +39,8 @@ public class GestionTir : MonoBehaviour
             {
                 GameObject nouveauLaser = Instantiate(laserJoueur, transform.position + new Vector3(0f, 0f, 0f), Quaternion.identity);
                 gestionUiJeux.AugmenterTir();
+                _prefabFire.SetActive(true);
+                StartCoroutine(FireCoroutine());
                 DetruireLaserAuContact(nouveauLaser);
             }
             else

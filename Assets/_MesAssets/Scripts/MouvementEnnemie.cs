@@ -54,9 +54,9 @@ public class MouvementEnnemie : MonoBehaviour
         if (other.tag == "Missile")
         {
             Debug.Log("A");
-            Instantiate(_prefabExplosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
             Destroy(other.gameObject);
+            Instantiate(_prefabExplosion, transform.position, Quaternion.identity);
         }
     }
 }

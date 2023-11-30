@@ -20,9 +20,9 @@ public class CollisionEnnemi : MonoBehaviour
         if (other.tag == "Missile")
         {
             Debug.Log("Missile detected!");
-            Instantiate(_prefabExplosion, transform.position, Quaternion.identity);
             Destroy(other.gameObject);  // Destroy the missile
             Destroy(gameObject);  // Destroy the enemy
+            Instantiate(_prefabExplosion, transform.position, Quaternion.identity);
             gestionUiJeux.AugmenterEnnemiAbattu();
         }
     }
