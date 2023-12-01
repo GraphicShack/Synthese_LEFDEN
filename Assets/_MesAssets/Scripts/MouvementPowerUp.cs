@@ -26,7 +26,7 @@ public class MouvementPowerUp : MonoBehaviour
             // Call the rapid fire function from the GestionTir script
             if (gestionTir != null)
             {
-                gestionTir.ActiverTirRapide();
+                //gestionTir.ActiverTirRapide();
             }
 
             // Destroy the object since the rapid fire function has been called

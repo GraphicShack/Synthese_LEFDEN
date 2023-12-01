@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private float _vitesseExplosion = 2f;
     [SerializeField] private AudioClip _sonExplosion = default;
     
     private void Start()
