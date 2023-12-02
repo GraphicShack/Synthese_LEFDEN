@@ -26,6 +26,8 @@ public class GestionJeux : MonoBehaviour
             // Si l'AudioSource n'est pas déjà attaché, ajoutez-le au même GameObject
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
+        gestionUiJeux = FindObjectOfType<GestionUiJeux>();
     }
 
     private void UpdateHealthUI()

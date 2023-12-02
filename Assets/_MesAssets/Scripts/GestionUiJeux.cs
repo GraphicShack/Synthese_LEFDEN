@@ -79,6 +79,7 @@ public class GestionUiJeux : MonoBehaviour
         int scoreFinal = tempsDeJeuEnSecondes + (10 * ennemisAbattus) - tirs;
         scoreFinalText.text = "" + scoreFinal;
         // Appeler UpdateScores de ScoreManager
+        SauvegarderScoresTemporaires();
         scoreManager.UpdateScores();
     }
     private void MiseAJourUI()
