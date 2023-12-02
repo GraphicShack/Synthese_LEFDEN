@@ -26,17 +26,17 @@ public class ScoreManager : MonoBehaviour
     // Fonction pour mettre à jour les scores et les afficher
     public void UpdateScores()
     {
-        // Récupérer le score final affiché dans GestionUiJeux
-        currentScore = gestionUiJeux.GetScoreFinal();
+        gestionUiJeux = FindObjectOfType<GestionUiJeux>();
 
-        // Trouver l'index où le nouveau score doit être inséré
-        int insertIndex = FindInsertIndex(currentScore);
-
-        // Insérer le nouveau score à la position spécifiée
-        InsertScore(insertIndex);
-
-        // Mettre à jour l'affichage des scores après insertion
-        UpdateScoreUI();
+        if (gestionUiJeux != null)
+        {
+            currentScore = gestionUiJeux.GetScoreFinal();
+            // ... le reste de votre code
+        }
+        else
+        {
+            Debug.LogError("GestionUiJeux not found in the scene.");
+        }
     }
 
     // Fonction pour trouver l'index où le nouveau score doit être inséré

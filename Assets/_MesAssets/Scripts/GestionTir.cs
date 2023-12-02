@@ -13,6 +13,7 @@ public class GestionTir : MonoBehaviour
     private bool tirRapideActive = false;
 
     private GestionUiJeux gestionUiJeux;
+    private BarreUtilisation barreUtilisation;
 
     void Start()
     {

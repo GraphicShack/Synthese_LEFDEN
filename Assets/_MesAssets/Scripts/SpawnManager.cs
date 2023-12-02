@@ -49,7 +49,11 @@ public class SpawnManager : MonoBehaviour
         GameObject nouvelEnnemi = Instantiate(GetRandomEnemyPrefab(), new Vector3(12f, positionY, 0f), Quaternion.Euler(0f, 0f, -90f));
         // Ajoute le script de gestion des collisions à l'ennemi
         nouvelEnnemi.AddComponent<CollisionEnnemi>();
+
+        // Ajoute le script DestroyPrefabOnSpawn à l'ennemi
+        /*nouvelEnnemi.AddComponent<DestroyPrefabOnSpawn>();*/
     }
+
 
     GameObject GetRandomEnemyPrefab()
     {

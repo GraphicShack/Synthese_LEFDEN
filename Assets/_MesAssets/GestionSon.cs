@@ -17,7 +17,7 @@ public class GestionSon : MonoBehaviour
         SoundOnImage = button.image.sprite;
     }
 
-    public void Buttonclicked()
+    public void Son()
     {
         if (isOn)
         {
