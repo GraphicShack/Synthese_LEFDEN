@@ -11,8 +11,10 @@ public class SpawnManager : MonoBehaviour
     public float diminutionTempsApparition = 1.0f;
 
     private int spawnCounter = 0;
-    public int spawnInterval = 8; // Interval pour le spawn du quatrième préfab
-    public float rarePrefabProbability = 0.1f; // Probability for spawning the rare prefab
+    public int spawnInterval = 8;
+    public float rarePrefabProbability = 0.1f;
+
+    private bool barreUtilisationPresente = false;
 
     void Start()
     {
@@ -27,14 +29,17 @@ public class SpawnManager : MonoBehaviour
             float positionY1 = ObtenirYApparitionAleatoire();
             float positionY2 = ObtenirYApparitionAleatoire(positionY1);
 
-            SpawnEnemy(positionY1);
-            SpawnEnemy(positionY2);
-
-            // Vérifie si c'est le moment de spawn le quatrième préfab
-            if (spawnCounter % spawnInterval == 0 && Random.value < rarePrefabProbability)
+            if (!barreUtilisationPresente)
             {
-                float positionY3 = ObtenirYApparitionAleatoire();
-                SpawnEnemy(positionY3);
+                SpawnEnemy(positionY1);
+                SpawnEnemy(positionY2);
+
+                // Vérifie si c'est le moment de spawn le quatrième préfab
+                if (spawnCounter % spawnInterval == 0 && Random.value < rarePrefabProbability)
+                {
+                    float positionY3 = ObtenirYApparitionAleatoire();
+                    SpawnEnemy(positionY3);
+                }
             }
 
             spawnCounter++;
@@ -45,27 +50,18 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnEnemy(float positionY)
     {
-        // Choisi aléatoirement un prefab d'ennemi
         GameObject nouvelEnnemi = Instantiate(GetRandomEnemyPrefab(), new Vector3(12f, positionY, 0f), Quaternion.Euler(0f, 0f, -90f));
-        // Ajoute le script de gestion des collisions à l'ennemi
         nouvelEnnemi.AddComponent<CollisionEnnemi>();
-
-        // Ajoute le script DestroyPrefabOnSpawn à l'ennemi
-        /*nouvelEnnemi.AddComponent<DestroyPrefabOnSpawn>();*/
     }
-
 
     GameObject GetRandomEnemyPrefab()
     {
-        // Check if it's the rare prefab or a regular one based on probability
         if (Random.value < rarePrefabProbability)
         {
-            // Return the rare prefab
             return enemyPrefabs[enemyPrefabs.Count - 1];
         }
         else
         {
-            // Return a regular prefab
             return enemyPrefabs[Random.Range(0, enemyPrefabs.Count - 1)];
         }
     }
@@ -73,8 +69,6 @@ public class SpawnManager : MonoBehaviour
     float ObtenirYApparitionAleatoire(float exclusionY = float.NaN)
     {
         float[] positionsYApparition = { -2.5f, 0f, 2.5f };
-
-        // Retire la position d'exclusion du tableau
         List<float> positionsDisponibles = new List<float>(positionsYApparition);
         positionsDisponibles.Remove(exclusionY);
 
@@ -97,6 +91,15 @@ public class SpawnManager : MonoBehaviour
         foreach (GameObject ennemi in ennemisEnJeu)
         {
             Destroy(ennemi);
+        }
+    }
+
+    public void BarreUtilisationPresente(bool presente)
+    {
+        barreUtilisationPresente = presente;
+        if (presente)
+        {
+            DetruireTousLesPrefabs();
         }
     }
 }

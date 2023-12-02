@@ -35,6 +35,7 @@ public class GestionUiJeux : MonoBehaviour
         tempsText.text = "Temps : " + tempsDeJeuEnSecondes;
 
         MettreAJourScoreFinal();
+        SauvegarderScoresTemporaires();
         if (_txtRestart.gameObject.activeSelf && Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -77,7 +78,6 @@ public class GestionUiJeux : MonoBehaviour
     {
         int scoreFinal = tempsDeJeuEnSecondes + (10 * ennemisAbattus) - tirs;
         scoreFinalText.text = "" + scoreFinal;
-
         // Appeler UpdateScores de ScoreManager
         scoreManager.UpdateScores();
     }
@@ -94,7 +94,7 @@ public class GestionUiJeux : MonoBehaviour
         Time.timeScale = 1;
         _pauseOn = false;
     }
-    private void SauvegarderScoresTemporaires()
+    public void SauvegarderScoresTemporaires()
     {
         PlayerPrefs.SetInt("TempsDeJeu", tempsDeJeuEnSecondes);
         PlayerPrefs.SetInt("Tirs", tirs);
