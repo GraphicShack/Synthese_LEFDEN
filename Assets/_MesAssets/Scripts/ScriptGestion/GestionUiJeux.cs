@@ -26,7 +26,7 @@ public class GestionUiJeux : MonoBehaviour
         {
             Debug.LogError("ScoreManager not found in the scene.");
         }
-
+        ResetScores();
         MiseAJourUI();
     }
     void Update()
@@ -112,5 +112,16 @@ public class GestionUiJeux : MonoBehaviour
     {
         int scoreFinal = tempsDeJeuEnSecondes + ennemisAbattus - tirs;
         return scoreFinal;
+    }
+
+    public void ResetScores()
+    {
+        // Reset all scores and time to 0
+        tempsDeJeuEnSecondes = 0;
+        tirs = 0;
+        ennemisAbattus = 0;
+
+        // Update UI to reflect the reset values
+        MiseAJourUI();
     }
 }
