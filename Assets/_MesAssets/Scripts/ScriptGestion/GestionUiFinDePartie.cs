@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GestionUiFinDePartie : MonoBehaviour
 {
@@ -7,25 +8,29 @@ public class GestionUiFinDePartie : MonoBehaviour
     public TextMeshProUGUI tirText;
     public TextMeshProUGUI ennemiAbattuText;
     public TextMeshProUGUI scoreFinalText;
-    public TextMeshProUGUI nomJoueurText; // Ajout du TextMeshProUGUI pour le nom du joueur
+    public TextMeshProUGUI nomJoueurText;
 
-    void Start()
+    private void Start()
     {
-        // Récupérer le nom du joueur sauvegardé temporairement
-        string nomJoueur = PlayerPrefs.GetString("NomJoueur", "JoueurAnonyme");
+        // Récupérer le score final
+        int scoreFinal = GetScoreFinal();
+
+        // Appeler UpdateMeilleurScore de ScoreManager avec le nouveau score final
+        FindObjectOfType<ScoreManager>().UpdateMeilleurScore(scoreFinal);
+
+        // Charger le nom du joueur enregistré
+        ChargerNomJoueurEnregistre();
 
         // Récupérer les scores sauvegardés temporairement
         int tempsDeJeu = PlayerPrefs.GetInt("TempsDeJeu", 0);
         int tirs = PlayerPrefs.GetInt("Tirs", 0);
         int ennemisAbattus = PlayerPrefs.GetInt("EnnemisAbattus", 0);
-        int scoreFinal = PlayerPrefs.GetInt("ScoreFinal", 0);
 
         // Afficher les scores dans les TextMeshProUGUI
         tempsText.text = "Temps : " + tempsDeJeu;
         tirText.text = "Tir : " + tirs;
         ennemiAbattuText.text = "Ennemi abattu : " + ennemisAbattus;
         scoreFinalText.text = "Score Final : " + scoreFinal;
-        nomJoueurText.text = "Nom : " + nomJoueur; // Afficher le nom du joueur
 
         // Effacer les valeurs sauvegardées
         PlayerPrefs.DeleteKey("NomJoueur");
@@ -35,6 +40,43 @@ public class GestionUiFinDePartie : MonoBehaviour
         PlayerPrefs.DeleteKey("ScoreFinal");
         PlayerPrefs.Save();
 
-        FindObjectOfType<ScoreManager>().UpdateScores();
+        // ... Autres actions de votre Start() existant
+    }
+
+    // Ajoutez cette méthode pour obtenir le score final
+    private int GetScoreFinal()
+    {
+        int tempsDeJeu = PlayerPrefs.GetInt("TempsDeJeu", 0);
+        int tirs = PlayerPrefs.GetInt("Tirs", 0);
+        int ennemisAbattus = PlayerPrefs.GetInt("EnnemisAbattus", 0);
+
+        int scoreFinal = tempsDeJeu + (10 * ennemisAbattus) - tirs;
+        return scoreFinal;
+    }
+
+    // Ajoutez cette méthode pour charger le nom du joueur enregistré
+    private void ChargerNomJoueurEnregistre()
+    {
+        if (PlayerPrefs.HasKey("NomJoueur"))
+        {
+            string nomJoueurEnregistre = PlayerPrefs.GetString("NomJoueur");
+            nomJoueurText.text = "Nom du Joueur : " + nomJoueurEnregistre;
+        }
+    }
+
+
+    void Update()
+    {
+        // Your existing code...
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Other existing code...
+
+            // UpdateMeilleurScore is the correct method in ScoreManager
+            FindObjectOfType<ScoreManager>().UpdateMeilleurScore(GetScoreFinal());
+
+            // Other existing code...
+        }
     }
 }

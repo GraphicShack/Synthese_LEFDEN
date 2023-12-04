@@ -8,7 +8,6 @@ public class GestionUiJeux : MonoBehaviour
     public TextMeshProUGUI tirText;
     public TextMeshProUGUI ennemiAbattuText;
     public TextMeshProUGUI scoreFinalText;
-    //public TextMeshProUGUI _txtQuit;
     public TextMeshProUGUI _txtRestart;
     public GameObject _pausePanel;
     private int tempsDeJeuEnSecondes = 0;
@@ -20,7 +19,6 @@ public class GestionUiJeux : MonoBehaviour
 
     void Start()
     {
-        // Trouver l'objet ScoreManager dans la scène
         scoreManager = FindObjectOfType<ScoreManager>();
         if (scoreManager == null)
         {
@@ -29,6 +27,7 @@ public class GestionUiJeux : MonoBehaviour
         ResetScores();
         MiseAJourUI();
     }
+
     void Update()
     {
         tempsDeJeuEnSecondes = Mathf.RoundToInt(Time.time);
@@ -62,26 +61,29 @@ public class GestionUiJeux : MonoBehaviour
         {
             Time.timeScale = 0;
         }
-
     }
+
     public void AugmenterTir()
     {
         tirs++;
         tirText.text = "Tir : " + tirs;
     }
+
     public void AugmenterEnnemiAbattu()
     {
-        ennemisAbattus ++;
+        ennemisAbattus++;
         ennemiAbattuText.text = "Ennemi abattu : " + ennemisAbattus;
     }
+
     private void MettreAJourScoreFinal()
     {
         int scoreFinal = tempsDeJeuEnSecondes + (10 * ennemisAbattus) - tirs;
         scoreFinalText.text = "" + scoreFinal;
-        // Appeler UpdateScores de ScoreManager
-        SauvegarderScoresTemporaires();
-        scoreManager.UpdateScores();
+
+        // Update the score in ScoreManager
+        scoreManager.UpdateMeilleurScore(scoreFinal);
     }
+
     private void MiseAJourUI()
     {
         tempsText.text = "Temps : " + tempsDeJeuEnSecondes;

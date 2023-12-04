@@ -3,43 +3,56 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public TextMeshProUGUI[] scoreTexts; // Tableau de TextMeshProUGUI pour afficher les scores
-    private int[] topScores = new int[5] { 0, 0, 0, 0, 0 }; // Tableau pour stocker les meilleurs scores, avec 5 fois le chiffre 0
-    private int currentScore = 0; // Score actuel
-    private GestionUiJeux gestionUiJeux; // Référence à GestionUiJeux
+    public TextMeshProUGUI[] scoreTexts;
+    private int[] topScores = new int[5] { 0, 0, 0, 0, 0 };
+    private string playerName = "JoueurAnonyme";
 
     void Start()
     {
-        // Initialisation des scores à 0 au début du jeu
         for (int i = 0; i < topScores.Length; i++)
         {
             topScores[i] = PlayerPrefs.GetInt("TopScore_" + i, 0);
         }
 
-        // Trouver l'objet GestionUiJeux dans la scène
-        gestionUiJeux = FindObjectOfType<GestionUiJeux>();
-
-        // Mettre à jour l'affichage des scores au démarrage
-        UpdateScoreUI();
+        // ... Autres actions de votre Start() existant
     }
 
-    // Fonction pour mettre à jour les scores et les afficher
-    public void UpdateScores()
+    public void UpdateMeilleurScore(int newScore)
     {
-        gestionUiJeux = FindObjectOfType<GestionUiJeux>();
+        int insertIndex = FindInsertIndex(newScore);
 
-        if (gestionUiJeux != null)
+        if (insertIndex != -1)
         {
-            currentScore = gestionUiJeux.GetScoreFinal();
-            // ... le reste de votre code
+            InsertScore(insertIndex, newScore);
         }
-        else
+
+        // Appelez ensuite UpdateMeilleurScoreUI pour mettre à jour l'interface utilisateur
+        UpdateMeilleurScoreUI();
+    }
+
+    private void UpdateMeilleurScoreUI()
+    {
+        int meilleurScore = GetMeilleurScore();
+        string nomMeilleurJoueur = GetMeilleurNomJoueur();
+
+        // Vous devriez implémenter votre propre logique pour afficher ces informations
+        // Pour chaque TextMeshProUGUI dans scoreTexts, affectez le texte approprié
+        for (int i = 0; i < scoreTexts.Length; i++)
         {
-            Debug.LogError("GestionUiJeux not found in the scene.");
+            scoreTexts[i].text = nomMeilleurJoueur + " - " + meilleurScore;
         }
     }
 
-    // Fonction pour trouver l'index où le nouveau score doit être inséré
+    public int GetMeilleurScore()
+    {
+        return topScores[0];
+    }
+
+    public string GetMeilleurNomJoueur()
+    {
+        return playerName;
+    }
+
     private int FindInsertIndex(int newScore)
     {
         for (int i = 0; i < topScores.Length; i++)
@@ -50,32 +63,18 @@ public class ScoreManager : MonoBehaviour
             }
         }
 
-        return -1; // Retourner -1 si le score n'est pas assez élevé pour être parmi les meilleurs
+        return -1;
     }
 
-    // Fonction pour insérer un nouveau score à la position donnée
-    private void InsertScore(int index)
+    private void InsertScore(int index, int newScore)
     {
-        // S'assurer que l'index est valide
-        if (index < 0 || index >= topScores.Length)
-        {
-            return;
-        }
-
-        // Si le nouveau score est plus bas que le dernier score, ne pas l'insérer
-        if (index == topScores.Length - 1 && currentScore <= topScores[index])
-        {
-            return;
-        }
-
-        // Décaler les scores vers le bas à partir de l'index spécifié
+        // Insérer le nouveau score à la position spécifiée
         for (int i = topScores.Length - 1; i > index; i--)
         {
             topScores[i] = topScores[i - 1];
         }
 
-        // Insérer le nouveau score à la position spécifiée
-        topScores[index] = currentScore;
+        topScores[index] = newScore;
 
         // Enregistrer le tableau mis à jour dans PlayerPrefs
         for (int i = 0; i < topScores.Length; i++)
@@ -83,22 +82,5 @@ public class ScoreManager : MonoBehaviour
             PlayerPrefs.SetInt("TopScore_" + i, topScores[i]);
         }
         PlayerPrefs.Save();
-    }
-
-    // Fonction pour mettre à jour l'affichage des scores dans les TextMeshProUGUI
-    private void UpdateScoreUI()
-    {
-        // Vérifier que le tableau de scores et les TextMeshProUGUI sont valides
-        if (scoreTexts != null && scoreTexts.Length == topScores.Length)
-        {
-            for (int i = 0; i < topScores.Length; i++)
-            {
-                scoreTexts[i].text = (i + 1) + " - " + topScores[i].ToString();
-            }
-        }
-        else
-        {
-            Debug.LogError("ScoreTexts array is not properly set up or has an incorrect length.");
-        }
     }
 }
