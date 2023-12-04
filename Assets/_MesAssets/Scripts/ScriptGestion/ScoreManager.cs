@@ -5,7 +5,7 @@ public class ScoreManager : MonoBehaviour
 {
     public TextMeshProUGUI[] scoreTexts;
     private int[] topScores = new int[5] { 0, 0, 0, 0, 0 };
-    private string playerName = "JoueurAnonyme";
+    private string playerName = ""; // Ne pas initialiser avec "JoueurAnonyme" ici
 
     void Start()
     {
@@ -13,6 +13,9 @@ public class ScoreManager : MonoBehaviour
         {
             topScores[i] = PlayerPrefs.GetInt("TopScore_" + i, 0);
         }
+
+        // Charger le nom du joueur depuis PlayerPrefs
+        playerName = PlayerPrefs.GetString("NomJoueur", "JoueurAnonyme");
 
         // ... Autres actions de votre Start() existant
     }
