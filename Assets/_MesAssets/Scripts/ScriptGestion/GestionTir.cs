@@ -7,6 +7,7 @@ public class GestionTir : MonoBehaviour
     [SerializeField] private GameObject tripleLaserJoueur;
     [SerializeField] private float vitesseTirNormale = 0.3f;
     [SerializeField] private float vitesseTirRapide = 0.05f;
+    [SerializeField] private GameObject _prefabFire = default;
 
     private float peutTirer = 0f;
     private bool tripleLaserActif = false;
@@ -33,6 +34,8 @@ public class GestionTir : MonoBehaviour
 
             GameObject nouveauLaser = Instantiate(tripleLaserActif ? tripleLaserJoueur : laserJoueur, transform.position, Quaternion.identity);
             gestionUiJeux.AugmenterTir();
+            _prefabFire.SetActive(true);
+            StartCoroutine(FireCoroutine());
             DetruireLaserAuContact(nouveauLaser);
 
             peutTirer = Time.time + vitesseTir;
@@ -77,5 +80,10 @@ public class GestionTir : MonoBehaviour
         tirRapideActive = true;
         yield return new WaitForSeconds(10.0f);
         tirRapideActive = false;
+    }
+    private IEnumerator FireCoroutine()
+    {
+        yield return new WaitForSeconds(0.35f);
+        _prefabFire.SetActive(false);
     }
 }
