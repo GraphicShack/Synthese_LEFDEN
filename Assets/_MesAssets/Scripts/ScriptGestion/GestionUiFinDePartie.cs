@@ -60,7 +60,7 @@ public class GestionUiFinDePartie : MonoBehaviour
         if (PlayerPrefs.HasKey("NomJoueur"))
         {
             string nomJoueurEnregistre = PlayerPrefs.GetString("NomJoueur");
-            nomJoueurText.text = "Nom du Joueur : " + nomJoueurEnregistre;
+            nomJoueurText.text = "Nom : " + nomJoueurEnregistre;
         }
     }
 

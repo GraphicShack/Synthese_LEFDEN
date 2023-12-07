@@ -3,33 +3,38 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public TextMeshProUGUI[] scoreTexts;
-    private int[] topScores = new int[5] { 0, 0, 0, 0, 0 };
-    private string playerName = ""; // Ne pas initialiser avec "JoueurAnonyme" ici
+    public TextMeshProUGUI scoreText;
+    private int bestScore = 0;
+    private string currentPlayerName = "JoueurAnonyme";
+    private string bestPlayerName = "JoueurAnonyme";
 
     void Start()
     {
-        for (int i = 0; i < topScores.Length; i++)
-        {
-            topScores[i] = PlayerPrefs.GetInt("TopScore_" + i, 0);
-        }
+        // Load the best score and the name of the best player from PlayerPrefs
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        bestPlayerName = PlayerPrefs.GetString("BestPlayerName", "JoueurAnonyme");
 
-        // Charger le nom du joueur depuis PlayerPrefs
-        playerName = PlayerPrefs.GetString("NomJoueur", "JoueurAnonyme");
-
-        // ... Autres actions de votre Start() existant
+        // ... Other existing actions in your Start()
     }
 
     public void UpdateMeilleurScore(int newScore)
     {
-        int insertIndex = FindInsertIndex(newScore);
+        // Your logic to update the best score (using PlayerPrefs) goes here
+        // ...
 
-        if (insertIndex != -1)
+        // If the new score is higher than the current best score
+        if (newScore > bestScore)
         {
-            InsertScore(insertIndex, newScore);
+            // Set the name of the current player as the best player
+            bestPlayerName = currentPlayerName;
+
+            // Save the new best score and the player's name in PlayerPrefs
+            PlayerPrefs.SetInt("BestScore", newScore);
+            PlayerPrefs.SetString("BestPlayerName", bestPlayerName);
+            PlayerPrefs.Save();
         }
 
-        // Appelez ensuite UpdateMeilleurScoreUI pour mettre à jour l'interface utilisateur
+        // Then call UpdateMeilleurScoreUI to update the UI
         UpdateMeilleurScoreUI();
     }
 
@@ -38,52 +43,27 @@ public class ScoreManager : MonoBehaviour
         int meilleurScore = GetMeilleurScore();
         string nomMeilleurJoueur = GetMeilleurNomJoueur();
 
-        // Vous devriez implémenter votre propre logique pour afficher ces informations
-        // Pour chaque TextMeshProUGUI dans scoreTexts, affectez le texte approprié
-        for (int i = 0; i < scoreTexts.Length; i++)
+        // Assuming scoreText is the TextMeshProUGUI component
+        if (scoreText != null)
         {
-            scoreTexts[i].text = nomMeilleurJoueur + " - " + meilleurScore;
+            // Update the Text property of the TextMeshProUGUI component
+            scoreText.text = nomMeilleurJoueur + " - " + meilleurScore;
+        }
+        else
+        {
+            // Log an error if scoreText is not linked correctly
+            Debug.LogError("scoreText is not assigned in the inspector!");
         }
     }
 
     public int GetMeilleurScore()
     {
-        return topScores[0];
+        return bestScore;
     }
 
     public string GetMeilleurNomJoueur()
     {
-        return playerName;
+        return currentPlayerName;
     }
 
-    private int FindInsertIndex(int newScore)
-    {
-        for (int i = 0; i < topScores.Length; i++)
-        {
-            if (newScore > topScores[i])
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    private void InsertScore(int index, int newScore)
-    {
-        // Insérer le nouveau score à la position spécifiée
-        for (int i = topScores.Length - 1; i > index; i--)
-        {
-            topScores[i] = topScores[i - 1];
-        }
-
-        topScores[index] = newScore;
-
-        // Enregistrer le tableau mis à jour dans PlayerPrefs
-        for (int i = 0; i < topScores.Length; i++)
-        {
-            PlayerPrefs.SetInt("TopScore_" + i, topScores[i]);
-        }
-        PlayerPrefs.Save();
-    }
 }
