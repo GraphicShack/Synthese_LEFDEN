@@ -5,7 +5,7 @@ public class ScoreManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     private int bestScore = 0;
-    private string currentPlayerName = "JoueurAnonyme";
+    private string currentPlayerName;  // Removed initialization here
     private string bestPlayerName = "JoueurAnonyme";
 
     void Start()
@@ -13,6 +13,9 @@ public class ScoreManager : MonoBehaviour
         // Load the best score and the name of the best player from PlayerPrefs
         bestScore = PlayerPrefs.GetInt("BestScore", 0);
         bestPlayerName = PlayerPrefs.GetString("BestPlayerName", "JoueurAnonyme");
+
+        // Initialize currentPlayerName here
+        currentPlayerName = PlayerPrefs.GetString("NomJoueur");
 
         // ... Other existing actions in your Start()
     }
@@ -32,6 +35,11 @@ public class ScoreManager : MonoBehaviour
             PlayerPrefs.SetInt("BestScore", newScore);
             PlayerPrefs.SetString("BestPlayerName", bestPlayerName);
             PlayerPrefs.Save();
+        }
+        else
+        {
+            // If the new score is not higher, update the best player name
+            bestPlayerName = PlayerPrefs.GetString("BestPlayerName", "JoueurAnonyme");
         }
 
         // Then call UpdateMeilleurScoreUI to update the UI
@@ -63,7 +71,6 @@ public class ScoreManager : MonoBehaviour
 
     public string GetMeilleurNomJoueur()
     {
-        return currentPlayerName;
+        return bestPlayerName;
     }
-
 }
