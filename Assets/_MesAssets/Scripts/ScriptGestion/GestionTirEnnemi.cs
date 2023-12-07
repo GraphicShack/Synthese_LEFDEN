@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GestionTirEnnemi : MonoBehaviour
 {
-    public float projectileChance = 0.3f;
+    public float projectileChance = 0.1f;
     [SerializeField] private GameObject TacoEnnemi;
     private void Start()
     {

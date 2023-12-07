@@ -30,9 +30,9 @@ public class GestionTir : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && Time.time > peutTirer)
         {
-            float vitesseTir = tirRapideActive ? vitesseTirRapide : vitesseTirNormale;
+            float vitesseTir =vitesseTirNormale;
 
-            GameObject nouveauLaser = Instantiate(tripleLaserActif ? tripleLaserJoueur : laserJoueur, transform.position, Quaternion.identity);
+            GameObject nouveauLaser = Instantiate(laserJoueur, transform.position + new Vector3(2.5f, .7f, 0f), Quaternion.identity);
             gestionUiJeux.AugmenterTir();
             _prefabFire.SetActive(true);
             StartCoroutine(FireCoroutine());

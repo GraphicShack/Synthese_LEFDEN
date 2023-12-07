@@ -87,10 +87,15 @@ public class SpawnManager : MonoBehaviour
     public void DetruireTousLesPrefabs()
     {
         GameObject[] ennemisEnJeu = GameObject.FindGameObjectsWithTag("Ennemi");
+        GameObject[] TacoEnJeu = GameObject.FindGameObjectsWithTag("Taco");
 
         foreach (GameObject ennemi in ennemisEnJeu)
         {
             Destroy(ennemi);
+        }
+        foreach (GameObject Taco in TacoEnJeu)
+        {
+            Destroy(Taco);
         }
     }
 
