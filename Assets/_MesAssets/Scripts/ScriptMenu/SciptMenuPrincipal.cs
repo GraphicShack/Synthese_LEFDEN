@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SciptMenuPrincipal : MonoBehaviour
 {
+    public GestionUiJeux gestionUiJeux;
     public GameObject instructionPanel;
     public GameObject mainPanel;
 
@@ -13,6 +14,7 @@ public class SciptMenuPrincipal : MonoBehaviour
         // Désactiver le panel des instructions au chargement de la scène
         if (instructionPanel != null)
         {
+            Time.timeScale = 1;
             instructionPanel.SetActive(false);
         }
 

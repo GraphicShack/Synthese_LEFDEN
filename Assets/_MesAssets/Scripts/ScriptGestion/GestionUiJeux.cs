@@ -123,6 +123,9 @@ public class GestionUiJeux : MonoBehaviour
         tirs = 0;
         ennemisAbattus = 0;
 
+        // Reset the game time to 0
+        Time.timeScale = 1;
+
         // Update UI to reflect the reset values
         MiseAJourUI();
     }

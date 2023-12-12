@@ -28,6 +28,7 @@ public class GestionJeux : MonoBehaviour
         }
 
         gestionUiJeux = FindObjectOfType<GestionUiJeux>();
+        gestionUiJeux.ResetScores();
     }
 
     private void UpdateHealthUI()
