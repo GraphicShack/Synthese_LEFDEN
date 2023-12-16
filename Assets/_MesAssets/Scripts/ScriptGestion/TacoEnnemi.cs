@@ -5,7 +5,7 @@ using UnityEngine;
 public class TacoEnnemi : MonoBehaviour
 {
     [SerializeField] private float _vitesseTaco = 6.5f;
-    public float tempsAvantDestruction = 3.5f;
+    public float tempsAvantDestruction = 3f;
     private GestionJeux gestionJeux;
 
     // Start is called before the first frame update
@@ -31,8 +31,9 @@ public class TacoEnnemi : MonoBehaviour
 
         if (other.tag == "Player")
         {
-            Destroy(this.gameObject);  // Destroy the Taco
+            Debug.Log("Tacoo");
             gestionJeux.TakeDamage();
+            Destroy(this.gameObject);  // Destroy the Taco
         }
     }
 }

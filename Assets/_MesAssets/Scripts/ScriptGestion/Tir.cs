@@ -10,7 +10,7 @@ public class Tir : MonoBehaviour
     {
         transform.Translate(Vector3.right * Time.deltaTime * _vitesseLaser);
 
-        if (transform.position.x > 10f)
+        if (transform.position.x > 11f)
         {
             if (transform.parent == null)
             {

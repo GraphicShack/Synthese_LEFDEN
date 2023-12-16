@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GestionJeux : MonoBehaviour
 {
+    public static GestionJeux Instance;
     private GestionUiJeux gestionUiJeux;
     public int maxHealth = 3;
     private int currentHealth;
